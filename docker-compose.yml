@@ -1,0 +1,47 @@
+sshd:
+  build: sshd
+  ports:
+   - "50022:22"
+  volumes_from:
+   - pydio
+   - ssl
+   - deluge
+   - flexget
+   - sickrage
+ssl:
+  build: ssl
+  volumes:
+   - /etc/stealthbox/ssl
+pydio:
+  build: pydio
+  volumes:
+   - /opt/pydio
+php-fpm:
+  build: php-fpm
+  ports:
+   - "9000:9000"
+  volumes_from:
+   - pydio
+nginx:
+  build: nginx
+  volumes_from:
+   - pydio
+   - ssl
+  ports:
+   - "50080:80"
+   - "50443:443"
+  links:
+   - pydio
+   - php-fpm
+flexget:
+  build: flexget
+deluge:
+  build: deluge
+  ports:
+    - "8112:8112"
+sickrage:
+  build: sickrage
+  ports:
+    - "8074:8074"
+  links:
+    - deluge

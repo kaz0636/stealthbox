@@ -1,0 +1,5 @@
+#!/usr/bin/execlineb -P
+
+s6-setuidgid box
+cd /var/deluge
+deluged -d -c config -L info -l config/deluged.log
